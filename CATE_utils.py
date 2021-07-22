@@ -42,7 +42,7 @@ def data_generator(n,
     
     Parameters
     ----------
-        n (int): total sample size. An additional 0.5*n sample is used for test
+        n (int): total sample size. An additional of max(1000, 0.5*n) sample is used for test
         d (int): number of covariates
         covariates_model (func): d-dimension covariate DGP, take in an input d
         propensity_model (func): probability of treatment conditional on covariates
@@ -50,7 +50,7 @@ def data_generator(n,
         treatment_effect_model (func): treatment effect conditional on covariates
     """
     np.random.seed(seed)
-    idx = np.arange(int(n * 1.5)).reshape([-1, 1])
+    idx = np.arange(int(max(n * 1.5, n+1000))).reshape([-1, 1])
     # Generate covariates
     X = np.apply_along_axis(lambda i: covariates_model(d), 1, idx)
     # Generate treatment
