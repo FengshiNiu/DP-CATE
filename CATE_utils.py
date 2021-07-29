@@ -90,9 +90,10 @@ def regressor(seed=123):
     return GridSearchCVList([LassoCV(),
                             RandomForestRegressor(n_estimators=400, random_state=seed, n_jobs=-2),
                             lgb.LGBMRegressor(random_state=seed)],
+                            ExplainableBoostingRegressor(random_state=seed, outer_bags=20),
                             param_grid_list=[{},
                                             {'max_depth': [5,10,20],'min_samples_leaf': [5, 10]},
-                                            {'learning_rate': [0.02,0.05,0.08], 'max_depth': [3, 5]}],
+                                            {'learning_rate': [0.02,0.05,0.08], 'max_depth': [3, 5]},{}],
                             cv=3,
                             scoring='neg_mean_squared_error',
                             n_jobs=-2)
